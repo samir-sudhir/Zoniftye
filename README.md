@@ -1,66 +1,294 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Thank you for sharing your controllers! Based on your project details, here's an updated `README.md` for your **Zoniftye** project with the necessary additions regarding packages, queue configuration, and migration commands.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+# Zoniftye
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Zoniftye** is a Laravel 11-based project designed to manage authentication, projects, reviews, contact forms, password management, and more. It leverages JWT authentication, job queues for email functionality, and integrates various Laravel features for building a scalable web application.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Table of Contents
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. [About](#about)
+2. [Requirements](#requirements)
+3. [Installation](#installation)
+4. [Configuration](#configuration)
+5. [Running the Application](#running-the-application)
+6. [API Endpoints](#api-endpoints)
+7. [Testing](#testing)
+8. [License](#license)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## About
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Zoniftye is a Laravel application built to manage multiple aspects of a web platform, including authentication, password reset, project management, reviews, and contact form submissions. The application uses JWT for API authentication and Mailtrap for email testing, along with queues for background email tasks.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## Requirements
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- PHP >= 8.2
+- Laravel >= 11.31
+- Composer
+- MySQL (or your preferred database)
+- Mailtrap (for email testing)
+- Redis (for queue management)
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Installation
 
-## Contributing
+Follow these steps to set up and run the application locally.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. **Clone the repository:**
 
-## Code of Conduct
+   ```bash
+   git clone https://github.com/yourusername/zoniftye.git
+   cd zoniftye
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. **Install dependencies via Composer:**
 
-## Security Vulnerabilities
+   ```bash
+   composer install
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. **Set up your `.env` file:**
+
+   Duplicate the `.env.example` file and rename it to `.env`:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Generate application key:**
+
+   ```bash
+   php artisan key:generate
+   ```
+
+5. **Set up the database:**
+
+   Update the `.env` file with your database credentials:
+
+   ```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=your_database_name
+   DB_USERNAME=your_database_username
+   DB_PASSWORD=your_database_password
+   ```
+
+6. **Run migrations to set up the database schema:**
+
+   ```bash
+   php artisan migrate
+   ```
+
+---
+
+## Configuration
+
+### JWT Authentication
+
+This project uses the `tymon/jwt-auth` package for JWT authentication. Make sure to generate the JWT secret by running:
+
+```bash
+php artisan jwt:secret
+```
+
+This will generate a secret key and save it to the `.env` file.
+
+### Mailtrap Configuration
+
+For email testing, this project uses **Mailtrap**. Update the `.env` file with your Mailtrap credentials:
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=587
+MAIL_USERNAME=your_mailtrap_username
+MAIL_PASSWORD=your_mailtrap_password
+MAIL_ENCRYPTION=tls
+```
+
+### Queue Configuration
+
+Ensure your `.env` file is configured for queues:
+
+```env
+QUEUE_CONNECTION=redis
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+```
+
+Then, start the queue worker with:
+
+```bash
+php artisan queue:work
+```
+
+### Caching and Optimizing
+
+For production environments, you can cache routes and configurations:
+
+```bash
+php artisan config:cache
+php artisan route:cache
+```
+
+---
+
+## Running the Application
+
+After completing the installation and configuration steps, you can run the application locally.
+
+1. **Start the development server:**
+
+   ```bash
+   php artisan serve
+   ```
+
+   By default, the application will be accessible at [http://localhost:8000](http://localhost:8000).
+
+---
+
+## API Endpoints
+
+### Authentication
+
+- **POST /api/login**  
+  Logs the user in and returns a JWT token.
+
+  - **Request Body:**
+
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "yourpassword"
+    }
+    ```
+
+  - **Response:**
+
+    ```json
+    {
+      "username": "User Name",
+      "email": "user@example.com",
+      "token": "your_jwt_token"
+    }
+    ```
+
+- **POST /api/logout**  
+  Logs the user out by invalidating the JWT token.
+
+### Password Reset
+
+- **POST /api/password/forgot**  
+  Sends a password reset link to the user's email.
+
+  - **Request Body:**
+
+    ```json
+    {
+      "email": "user@example.com"
+    }
+    ```
+
+- **POST /api/password/reset**  
+  Resets the user's password using the reset token and email.
+
+  - **Request Body:**
+
+    ```json
+    {
+      "token": "reset_token",
+      "email": "user@example.com",
+      "password": "newpassword",
+      "password_confirmation": "newpassword"
+    }
+    ```
+
+### Project Management
+
+- **GET /api/projects**  
+  Retrieves all projects.
+
+- **POST /api/projects**  
+  Creates a new project.
+
+  - **Request Body:**
+
+    ```json
+    {
+      "title": "Project Title",
+      "description": "Project Description",
+      "image": "image_file"
+    }
+    ```
+
+- **PUT /api/projects/{id}**  
+  Updates an existing project.
+
+- **DELETE /api/projects/{id}**  
+  Deletes a project.
+
+### Contact Form
+
+- **POST /api/contact**  
+  Submits a new contact message.
+
+  - **Request Body:**
+
+    ```json
+    {
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "john.doe@example.com",
+      "phone_number": "123456789",
+      "message": "Your message here"
+    }
+    ```
+
+### Review Management
+
+- **GET /api/reviews**  
+  Retrieves all reviews.
+
+- **POST /api/reviews**  
+  Creates a new review.
+
+  - **Request Body:**
+
+    ```json
+    {
+      "title": "Review Title",
+      "comment": "Review Comment",
+      "rating": 5,
+      "customer_name": "Customer Name"
+    }
+    ```
+
+---
+
+## Testing
+
+To run the application's tests, make sure you have the `.env` file set up with the appropriate database configuration. Then, run the following command:
+
+```bash
+php artisan test
+```
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+This `README.md` includes the configuration for JWT authentication, Mailtrap, queues, and migration commands. It also provides API documentation, instructions for setting up the project, and instructions for running tests.
+
+Let me know if you'd like any further modifications or additions!
