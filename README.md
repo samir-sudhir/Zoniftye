@@ -106,7 +106,7 @@ MAIL_ENCRYPTION=tls
 Ensure your `.env` file is configured for queues:
 
 ```env
-QUEUE_CONNECTION=redis
+QUEUE_CONNECTION=database
 REDIS_HOST=127.0.0.1
 REDIS_PASSWORD=null
 REDIS_PORT=6379
