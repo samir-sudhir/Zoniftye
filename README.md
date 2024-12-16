@@ -286,9 +286,3 @@ php artisan test
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-This `README.md` includes the configuration for JWT authentication, Mailtrap, queues, and migration commands. It also provides API documentation, instructions for setting up the project, and instructions for running tests.
-
-Let me know if you'd like any further modifications or additions!
